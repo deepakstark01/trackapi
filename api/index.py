@@ -49,4 +49,5 @@ def create_device():
 def page_not_found(e):
     return jsonify(error=404, text=str(e)), 404
 
-app.run(host='0.0.0.0', port=81)
+if __name__ == '__index__':
+    app.run(host='0.0.0.0', port=81)
