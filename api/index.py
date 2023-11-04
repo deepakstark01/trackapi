@@ -1,6 +1,5 @@
 from flask import Flask, jsonify, request
 from pymongo import MongoClient
-
 app = Flask(__name__)
 
 # Replace '<password>' with your actual password and ensure the rest of your connection string is correct.
@@ -50,5 +49,4 @@ def create_device():
 def page_not_found(e):
     return jsonify(error=404, text=str(e)), 404
 
-# if __name__ == '__main__':
-    # app.run(debug=True)
+app.run(host='0.0.0.0', port=81)
