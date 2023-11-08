@@ -1,12 +1,13 @@
 from flask import Flask, jsonify, request
-from pymongo import MongoClient
 app = Flask(__name__)
+from pymongo.mongo_client import MongoClient
+from pymongo.server_api import ServerApi
 
+# Create a new client and connect to the server
 # Replace '<password>' with your actual password and ensure the rest of your connection string is correct.
-CONNECTION_STRING = "mongodb+srv://deepakstark01:deepak01@data.lp7ftel.mongodb.net/"
+uri = "mongodb+srv://deepakstark01:deepak01@data.lp7ftel.mongodb.net/?retryWrites=true&w=majority"
 
-client = MongoClient(CONNECTION_STRING)
-
+client = MongoClient(uri, server_api=ServerApi('1'))
 # Assuming you have already created the 'tracker' database and 'devices' collection
 db = client.tracker
 devices_collection = db.devices
@@ -43,11 +44,10 @@ def create_device():
         devices_collection.insert_one(data)
         # return jsonify({"_id": str(result.inserted_id), "result": "New device created with call"}), 201
         return jsonify({"result": "New device created with call"}), 201
-
+@app.route('/')
+def home():
+    return 'Hello, World!'
 
 @app.errorhandler(404)
 def page_not_found(e):
     return jsonify(error=404, text=str(e)), 404
-
-if __name__ == '__index__':
-    app.run(host='0.0.0.0', port=81)
